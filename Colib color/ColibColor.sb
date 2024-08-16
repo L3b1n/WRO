@@ -1,0 +1,54 @@
+far=0
+near=0
+down[0]=0
+Sensor.SetMode(3,1)
+Sensor.SetMode(2,0)
+Thread.Run=show
+Sub show
+  While "True"
+    LCD.Clear()
+    red=Sensor.ReadRaw(2,0)
+    green=Sensor.ReadRaw(2,1)
+    blue=Sensor.ReadRaw(2,2)
+    LCD.Text(1,0,0,2,"Red=")
+    LCD.Text(1,100,0,2,red[0])
+    LCD.Text(1,0,20,2,"Green=")
+    LCD.Text(1,100,20,2,green[0])
+    LCD.Text(1,0,40,2,"Green=")
+    LCD.Text(1,100,40,2,blue[0])
+    LCD.Text(1,0,60,2,"Near=")
+    LCD.Text(1,85,60,2,near)
+    LCD.Text(1,0,80,2,"Far=")
+    LCD.Text(1,75,80,2,far)
+    LCD.Text(1,0,100,2,"Down=")
+    LCD.Text(1,85,100,2,down[0])
+    Program.Delay(100)
+  EndWhile
+EndSub
+
+Buttons.Wait()
+near=Sensor.ReadPercent(3)
+n=EV3File.OpenWrite("wro2019/near.txt")
+EV3File.WriteByte(n,near)
+Speaker.Note(25,"D2",1000)
+EV3File.Close(n)
+Buttons.Flush()
+Program.Delay(1000)
+
+Buttons.Wait()
+far=Sensor.ReadPercent(3)
+F=EV3File.OpenWrite("wro2019/far.txt")
+EV3File.WriteByte(F,far)
+Speaker.Note(25,"D4",1000)
+Buttons.Flush()
+EV3File.Close(F)
+Program.Delay(1000)
+
+Buttons.Wait()
+down=Sensor.ReadRaw(2,1)
+D=EV3File.OpenWrite("wro2019/down.txt")
+EV3File.WriteByte(D,down[1])
+Speaker.Note(25,"C4",1000)
+EV3File.Close(D)
+Program.Delay(1000)
+Program.Delay(10000)  
