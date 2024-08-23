@@ -1,0 +1,28 @@
+F=EV3File.OpenRead("wro2019/far.txt")
+far=EV3File.ReadByte(F)
+EV3File.Close(F)
+n=EV3File.OpenRead("wro2019/near.txt")
+near=EV3File.ReadByte(n)
+EV3File.Close(n)
+D=EV3File.OpenRead("wro2019/down.txt")
+down=EV3File.ReadByte(D)
+EV3File.Close(D)
+
+I=0
+Sensor.SetMode(2,0)
+While "True"
+  LCD.Clear()
+  color=Sensor.ReadRawValue(2,0)
+  LCD.Text(1,0,0,2,color)
+  LCD.Text(1,0,20,2,far)
+  LCD.Text(1,0,40,2,near)
+  LCD.Text(1,0,60,2,down)
+  If color>180 Then
+    I=I+1
+  Else
+    I=0
+  EndIf
+  Program.Delay(5)
+EndWhile  
+Speaker.Note(25,"C4",1500)
+Program.Delay(1500)
