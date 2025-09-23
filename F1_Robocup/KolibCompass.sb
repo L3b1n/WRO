@@ -1,0 +1,269 @@
+Start_angle=Sensor.ReadRawValue(4,0)
+Start_angle=0.0003*Start_angle*Start_angle+1.9228*Start_angle
+Right_near_angle=0
+Right_far_angle=0
+Right_super_far_angle=0
+Left_near_angle=0
+Left_far_angle=0
+Left_super_far_angle=0
+
+
+N=1
+Thread.Run=show
+Sub show
+  While N=1
+    LCD.Clear()
+    LCD.Text(1,0,0,2,"Start_angle:")
+    LCD.Text(1,0,20,2,Start_angle)
+    LCD.Text(1,0,40,2,0.0003*Sensor.ReadRawValue(4,0)*Sensor.ReadRawValue(4,0)+1.9228*Sensor.ReadRawValue(4,0))
+    Program.Delay(100)
+  EndWhile
+EndSub
+Buttons.Wait()
+Start_angle=Sensor.ReadRawValue(4,0)
+Ideal_angle=Start_angle
+Start_angle=0.0003*Start_angle*Start_angle+1.9228*Start_angle
+N=0
+
+
+D=1
+Thread.Run=show_
+Sub show_
+  While D=1
+    LCD.Clear()
+    LCD.Text(1,0,0,2,"Right_near")
+    LCD.Text(1,0,20,2,Right_near_angle)
+    LCD.Text(1,0,40,2,0.0003*Sensor.ReadRawValue(4,0)*Sensor.ReadRawValue(4,0)+1.9228*Sensor.ReadRawValue(4,0))
+    Program.Delay(100)
+  EndWhile
+EndSub
+Right_near_angle=Start_angle-30
+If Right_near_angle<0 then
+  Right_near_angle=360+Right_near_angle
+Else
+EndIf
+If Right_near_angle>240 Then
+  Right_near_angle=Right_near_angle-240
+  IndexR_N_A=24
+ElseIf Right_near_angle>120 Then
+  Right_near_angle=Right_near_angle-120
+  IndexR_N_A=12
+Else
+  IndexR_N_A=0
+EndIf
+R_N_A=EV3File.OpenWrite("wro2019/Right_near_angle.txt")
+EV3File.WriteByte(R_N_A,Right_near_angle)
+I_R_N_A=EV3File.OpenWrite("wro2019/IndexR_N_A.txt")
+EV3File.WriteByte(I_R_N_A,IndexR_N_A)
+EV3File.Close(R_N_A)
+EV3File.Close(I_R_N_A)
+D=0
+
+
+I=1
+Thread.Run=show_S
+Sub show_S
+  While I=1
+    LCD.Clear()
+    LCD.Text(1,0,0,2,"Right_far")
+    LCD.Text(1,0,20,2,Right_far_angle)
+    LCD.Text(1,0,40,2,0.0003*Sensor.ReadRawValue(4,0)*Sensor.ReadRawValue(4,0)+1.9228*Sensor.ReadRawValue(4,0))
+    Program.Delay(100)
+  EndWhile
+EndSub
+Right_far_angle=Start_angle-50
+If Right_far_angle<0 then
+  Right_far_angle=360+Right_far_angle
+Else
+EndIf
+If Right_far_angle>240 Then
+  Right_far_angle=Right_far_angle-240
+  IndexR_F_A=24
+ElseIf Right_far_angle>120 Then
+  Right_far_angle=Right_far_angle-120
+  IndexR_F_A=12
+Else
+  IndexR_F_A=0
+EndIf
+R_F_A=EV3File.OpenWrite("wro2019/Right_far_angle.txt")
+EV3File.WriteByte(R_F_A,Right_far_angle)
+I_R_F_A=EV3File.OpenWrite("wro2019/IndexR_F_A.txt")
+EV3File.WriteByte(I_R_F_A,IndexR_F_A)
+EV3File.Close(R_F_A)
+EV3File.Close(I_R_F_A)
+I=0
+
+
+H=1
+Thread.Run=show_A
+Sub show_A
+  While H=1
+    LCD.Clear()
+    LCD.Text(1,0,0,2,"Right_super_far")
+    LCD.Text(1,0,20,2,Right_super_far_angle)
+    LCD.Text(1,0,40,2,0.0003*Sensor.ReadRawValue(4,0)*Sensor.ReadRawValue(4,0)+1.9228*Sensor.ReadRawValue(4,0))
+    Program.Delay(100)
+  EndWhile
+EndSub
+Right_super_far_angle=Start_angle-65
+If Right_super_far_angle<0 then
+  Right_super_far_angle=360+Right_super_far_angle
+Else
+EndIf
+If Right_super_far_angle>240 Then
+  Right_super_far_angle=Right_super_far_angle-240
+  IndexR_S_F_A=24
+ElseIf Right_super_far_angle>120 Then
+  Right_super_far_angle=Right_super_far_angle-120
+  IndexR_S_F_A=12
+Else
+  IndexR_S_F_A=0
+EndIf
+R_S_F_A=EV3File.OpenWrite("wro2019/Right_super_far_angle.txt")
+EV3File.WriteByte(R_S_F_A,Right_super_far_angle)
+I_R_S_F_A=EV3File.OpenWrite("wro2019/IndexR_S_F_A.txt")
+EV3File.WriteByte(I_R_S_F_A,IndexR_S_F_A)
+EV3File.Close(R_S_F_A)
+EV3File.Close(I_R_S_F_A)
+H=0
+
+
+Z=1
+Thread.Run=show_v
+Sub show_v
+  While Z=1
+    LCD.Clear()
+    LCD.Text(1,0,0,2,"Left_near")
+    LCD.Text(1,0,20,2,Left_near_angle)
+    LCD.Text(1,0,40,2,0.0003*Sensor.ReadRawValue(4,0)*Sensor.ReadRawValue(4,0)+1.9228*Sensor.ReadRawValue(4,0))
+    Program.Delay(100)
+  EndWhile
+EndSub
+Left_near_angle=Start_angle+40
+If Left_near_angle>360 then
+  Left_near_angle=Left_near_angle-360
+Else
+EndIf
+If Left_near_angle>240 Then
+  Left_near_angle=Left_near_angle-240
+  IndexL_N_A=24
+ElseIf Left_near_angle>120 Then
+  Left_near_angle=Left_near_angle-120
+  IndexL_N_A=12
+Else
+  IndexL_N_A=0
+EndIf
+L_N_A=EV3File.OpenWrite("wro2019/Left_near_angle.txt")
+EV3File.WriteByte(L_N_A,Left_near_angle)
+I_L_N_A=EV3File.OpenWrite("wro2019/IndexL_N_A.txt")
+EV3File.WriteByte(I_L_N_A,IndexL_N_A)
+EV3File.Close(L_N_A)
+EV3File.Close(I_L_N_A)
+Z=0
+
+
+B=1
+Thread.Run=show_b
+Sub show_b
+  While B=1
+    LCD.Clear()
+    LCD.Text(1,0,0,2,"Left_far")
+    LCD.Text(1,0,20,2,Left_far_angle)
+    LCD.Text(1,0,40,2,0.0003*Sensor.ReadRawValue(4,0)*Sensor.ReadRawValue(4,0)+1.9228*Sensor.ReadRawValue(4,0))
+    Program.Delay(100)
+  EndWhile
+EndSub
+Left_far_angle=Start_angle+65
+If Left_far_angle>360 then
+  Left_far_angle=Left_far_angle-360
+Else
+EndIf
+If Left_far_angle>240 Then
+  Left_far_angle=Left_far_angle-240
+  IndexL_F_A=24
+ElseIf Left_far_angle>120 Then
+  Left_far_angle=Left_far_angle-120
+  IndexL_F_A=12
+Else
+  IndexL_F_A=0
+EndIf
+L_F_A=EV3File.OpenWrite("wro2019/Left_far_angle.txt")
+EV3File.WriteByte(L_F_A,Left_far_angle)
+I_L_F_A=EV3File.OpenWrite("wro2019/IndexL_F_A.txt")
+EV3File.WriteByte(I_L_F_A,IndexL_F_A)
+EV3File.Close(L_F_A)
+EV3File.Close(I_L_F_A)
+B=0
+
+
+J=1
+Thread.Run=show_L
+Sub show_L
+  While J=1
+    LCD.Clear()
+    LCD.Text(1,0,0,2,"Left_super_far")
+    LCD.Text(1,0,20,2,Left_super_far_angle)
+    LCD.Text(1,0,40,2,0.0003*Sensor.ReadRawValue(4,0)*Sensor.ReadRawValue(4,0)+1.9228*Sensor.ReadRawValue(4,0))
+    Program.Delay(100)
+  EndWhile
+EndSub
+Left_super_far_angle=Start_angle+80
+If Left_super_far_angle>360 then
+  Left_super_far_angle=Left_super_far_angle-360
+Else
+EndIf
+If Left_super_far_angle>240 Then
+  Left_super_far_angle=Left_super_far_angle-240
+  IndexL_S_F_A=24
+ElseIf Left_super_far_angle>120 Then
+  Left_super_far_angle=Left_super_far_angle-120
+  IndexL_S_F_A=12
+Else
+  IndexL_S_F_A=0
+EndIf
+L_S_F_A=EV3File.OpenWrite("wro2019/Left_super_far_angle.txt")
+EV3File.WriteByte(R_S_F_A,Right_near_angle)
+I_L_S_F_A=EV3File.OpenWrite("wro2019/IndexL_S_F_A.txt")
+EV3File.WriteByte(I_L_S_F_A,IndexL_S_F_A)
+EV3File.Close(L_S_F_A)
+EV3File.Close(I_L_S_F_A)
+J=0
+
+
+If Start_angle>240 Then
+  Start_angle=Start_angle-240
+  IndexS_A=24
+ElseIf Start_angle>120 then
+  Start_angle=Start_angle-120
+  IndexS_A=12
+Else
+  IndexS_A=0
+EndIf
+S_A=EV3File.OpenWrite("wro2019/Start_angle.txt")
+EV3File.WriteByte(S_A,Start_angle)
+I_S_A=EV3File.OpenWrite("wro2019/IndexS_A.txt")
+EV3File.WriteByte(I_S_A,IndexS_A)
+Speaker.Note(5,"B2",1000)
+EV3File.Close(S_A)
+EV3File.Close(I_S_A)
+
+
+I=0
+LCD.Clear()
+While "True"
+  LCD.Clear()
+  LCD.Text(1,0,0,2,"S_A=")
+  LCD.Text(1,60,0,2,Start_angle)
+  LCD.Text(1,0,20,2,"R_N=")
+  LCD.Text(1,60,20,2,Right_near_angle)
+  LCD.Text(1,0,40,2,"R_F=")
+  LCD.Text(1,60,40,2,Right_far_angle)
+  LCD.Text(1,0,60,2,"L_N=")
+  LCD.Text(1,60,60,2,Left_near_angle)
+  LCD.Text(1,0,80,2,"L_F=")
+  LCD.Text(1,60,80,2,Left_far_angle)
+  LCD.Text(1,0,100,2,"L_S_F=")
+  LCD.Text(1,80,100,2,Left_super_far_angle)
+  Program.Delay(100)
+EndWhile
+Program.Delay(1000000)
