@@ -1,0 +1,647 @@
+'imit porometr
+speed_right_1=0
+speed_right_2=0
+speed_left_1=0
+speed_left_2=0
+K=0
+X=0
+Y=0
+Px_cm=3.725'1.85
+Py_cm=1.19'0.9626
+force=25
+access="start"
+condition=0
+color=2100
+color_aligment=2100
+color_forward=2400
+now_angle=0 ' текущее показание датчика compass
+cof_OY=0 'поправка для определения направления движения(по оси OY)
+cof_OX=0 'поправка для определения направления движения(по оси OX)
+button_press=1
+newangle=0 'угол отклонения от изначального курса
+one=0 'количество повторов появления мяча в одной зоне 1
+two=0 'количество повторов появления мяча в одной зоне 2
+three=0 'количество повторов появления мяча в одной зоне 3
+seven=0 'количество повторов появления мяча в одной зоне 7
+eight=0 'количество повторов появления мяча в одной зоне 8
+nine=0 'количество повторов появления мяча в одной зоне 9
+zero=0 'количество повторов появления мяча в одной зоне 0
+sample=0 'количество повторов появления мяча в одной зоне
+type_odometriy=1 'режим работы одометрии 
+condition_x=0 'поправка для езды по оси X в одометрии 
+condition_y=0 'поправка для езды по оси Y в одометрии
+Value_tern=40 'cкорость при езде налево и направо
+Value_back_low=80 'cкорость при медленной езде назад
+Port_compas=4
+Port_seeker=1
+Port_front_color=3
+Port_down_color=2
+touch=0
+'Приоретные зоны 
+zone_previous_1=0
+zone_previous_2=0
+zone_previous_3=0
+zone_previous_4=0
+'imit controler
+LCD.Clear()
+Mailbox.Connect("F2")
+F1=Mailbox.Create("F1")
+Sensor.SetMode(Port_front_color,0)
+Sensor.SetMode(Port_seeker,1)
+Sensor.SetMode(Port_compas,0)
+Sensor.SetMode(Port_down_color,0)
+'Start_angle=Sensor.ReadRawValue(Port_compas,0) 'идеальное показание compassa
+'Start_angle=0.0003*Start_angle*Start_angle+1.9228*Start_angle 'апроксимация идеального показания compassa
+I_R_N_A=EV3File.OpenRead("wro2019/IndexR_N_A.txt")
+IndexR_N_A=EV3File.ReadByte(I_R_N_A)
+EV3File.Close(I_R_N_A)
+I_R_F_A=EV3File.OpenRead("wro2019/IndexR_F_A.txt")
+IndexR_F_A=EV3File.ReadByte(I_R_F_A)
+EV3File.Close(I_R_F_A)
+I_R_S_F_A=EV3File.OpenRead("wro2019/IndexR_S_F_A.txt")
+IndexR_S_F_A=EV3File.ReadByte(I_R_S_F_A)
+EV3File.Close(I_R_S_F_A)
+I_L_N_A=EV3File.OpenRead("wro2019/IndexL_N_A.txt")
+IndexL_N_A=EV3File.ReadByte(I_L_N_A)
+EV3File.Close(I_L_N_A)
+I_L_F_A=EV3File.OpenRead("wro2019/IndexL_F_A.txt")
+IndexL_F_A=EV3File.ReadByte(I_L_F_A)
+EV3File.Close(I_L_F_A)
+I_L_S_F_A=EV3File.OpenRead("wro2019/IndexL_S_F_A.txt")
+IndexL_S_F_A=EV3File.ReadByte(I_L_S_F_A)
+EV3File.Close(I_L_S_F_A)
+I_S_A=EV3File.OpenRead("wro2019/IndexS_A.txt")
+IndexS_A=EV3File.ReadByte(I_S_A)
+EV3File.Close(I_S_A)
+F=EV3File.OpenRead("wro2019/far.txt")
+far=EV3File.ReadByte(F)
+EV3File.Close(F)
+N=EV3File.OpenRead("wro2019/near.txt")
+near=EV3File.ReadByte(N)
+EV3File.Close(N)
+D=EV3File.OpenRead("wro2019/down.txt")
+down=EV3File.ReadByte(D)
+EV3File.Close(D)
+R_N_A=EV3File.OpenRead("wro2019/Right_near_angle.txt")
+Right_near_angle=EV3File.ReadByte(R_N_A)+IndexR_N_A*10
+EV3File.Close(R_N_A)
+R_F_A=EV3File.OpenRead("wro2019/Right_far_angle.txt")
+Right_far_angle=EV3File.ReadByte(R_F_A)+IndexR_F_A*10
+EV3File.Close(R_F_A)
+R_S_F_A=EV3File.OpenRead("wro2019/Right_super_far_angle.txt")
+Right_super_far_angle=EV3File.ReadByte(R_S_F_A)+IndexR_S_F_A*10
+EV3File.Close(R_S_F_A)
+L_N_A=EV3File.OpenRead("wro2019/Left_near_angle.txt")
+Left_near_angle=EV3File.ReadByte(L_N_A)+IndexL_N_A*10
+EV3File.Close(L_N_A)
+L_F_A=EV3File.OpenRead("wro2019/Left_far_angle.txt")
+Left_far_angle=EV3File.ReadByte(L_F_A)+IndexL_F_A*10
+EV3File.Close(L_F_A)
+L_S_F_A=EV3File.OpenRead("wro2019/Right_super_far_angle.txt")
+Left_super_far_angle=EV3File.ReadByte(L_S_F_A)+IndexL_S_F_A*10
+EV3File.Close(L_S_F_A)
+S_A=EV3File.OpenRead("wro2019/Start_angle.txt")
+Start_angle=EV3File.ReadByte(S_A)+IndexS_A*10
+Gold_angle=Start_angle
+EV3File.Close(S_A)
+
+'одометрия
+Thread.Run=odometriy 
+Sub odometriy
+  While "True"
+    'прямолинейное
+    If type_odometriy=1 Then 
+      debug_angel=Math.GetRadians(90)
+      count_right=Math.Abs(Motor.GetSpeed("A")) 
+      count_left=Math.Abs(Motor.GetSpeed("B"))
+      count_back=Math.Abs(Motor.GetSpeed("C"))
+      
+      Vy=(Math.SquareRoot(Math.Power(count_right,2)+Math.Power(count_left,2)+count_right*count_left))*cof_OY
+      Y=Vy*0.005*Py_cm+Y'-0.06*condition_y,1.19
+      
+      Vx=((Math.SquareRoot(Math.Power(count_right,2)+Math.Power(count_left,2)-count_right*count_left)+count_back)/2)*cof_OX
+      X=Vx*0.005*Px_cm+X+0.06*condition_x'3.725
+    'криволинейное
+    ElseIf type_odometriy=0 Then 
+      Va=Math.Abs(Motor.GetSpeed("A"))
+      Vb=Math.Abs(Motor.GetSpeed("B"))
+      R=(Va+Vb)*15/2*(Va-Vb)
+      alpha=Math.SquareRoot(Va*Va+Vb*Vb+Va*Vb)*0.005/R
+      'угол отклонения больше нуля
+      If alpha>0 Then 
+        X=2*R*Math.Sin(alpha/2)*Math.Cos(debug_angel+alpha/2)+X
+        Y=2*R*Math.Sin(alpha/2)*Math.Sin(debug_angel+alpha/2)+Y
+        debug_angel=debug_angel+alpha/2
+      'угол отклонения меньше нуля
+      ElseIf alpha<0 Then 
+        X=2*R*Math.Sin(alpha/2)*Math.Cos(alpha/2-debug_angel)+X
+        Y=2*R*Math.Sin(alpha/2)*Math.Sin(alpha/2-debug_angel)+Y
+        debug_angel=debug_angel-alpha/2
+      EndIf
+    EndIf
+    
+    'проверка залипания
+    abs_A=Math.Abs(Motor.GetSpeed("A"))
+    abs_B=Math.Abs(Motor.GetSpeed("B"))
+    While abs_A<20  
+      While abs_B<20
+        abs_A=Math.Abs(Motor.GetSpeed("A"))
+        abs_B=Math.Abs(Motor.GetSpeed("B"))    
+      EndWhile
+      abs_A=Math.Abs(Motor.GetSpeed("A"))
+      abs_B=Math.Abs(Motor.GetSpeed("B"))
+    EndWhile
+    Program.Delay(5)  
+  EndWhile
+EndSub
+
+
+
+'вывод показаний на экран
+Thread.Run=show 
+Sub show
+  While "True"
+    LCD.Clear()
+    LCD.Text(1,0,0,2,EV3.BatteryVoltage)
+    LCD.Text(1,0,20,2,"x=")
+    LCD.Text(1,0,40,2,"y=")
+    LCD.Text(1,60,20,2,X)
+    LCD.Text(1,60,40,2,Y)
+    LCD.Text(1,0,60,2,Sensor.ReadI2CRegister(1,8,75))
+    LCD.Text(1,0,80,2,Sensor.ReadI2CRegister(1,8,76))
+    LCD.Text(1,0,100,2,Sensor.ReadI2CRegister(1,8,77))
+    LCD.Text(1,0,100,2,zone_previous_2)
+    LCD.Text(1,60,100,2,K)'zone_previous_3)
+    Program.Delay(100)
+  EndWhile
+EndSub
+
+button_press=1 'рестарт
+Thread.Run=conditions  
+Sub conditions
+  While "True"
+    Buttons.Flush()
+    If Buttons.Current="D" then
+      button_press=0
+      EV3.SetLEDColor("RED","FLASH")
+      D=1
+      While D=1
+        Motor.Stop("ABC","False")
+        X=0
+        Y=0
+        condition_x=0
+        condition_y=0
+        If Buttons.Current="R" Then
+          D=0
+        Else
+          D=1
+        EndIf
+      EndWhile
+    ElseIf Buttons.Current="U" then
+      D=1
+      While D=1
+        EV3.SetLEDColor("ORANGE","FLASH")
+        X=0
+        Y=0
+        condition_x=0
+        condition_y=0
+        poisk()
+        Motor.Stop("ABC","False")
+      EndWhile
+    Else 
+      button_press=1
+      EV3.SetLEDColor("GREEN","FLASH")
+      Program.Delay(5)
+    EndIf
+  EndWhile
+EndSub
+
+
+While "True" 'главный цикл работы программы
+  'цикл поиска мяча при условии, что мяч рядом в 2,3 или 4 зоне
+  If Buttons.Current = "U" Then
+    i=0
+    While i<10
+      cof_OY=0
+      cof_OX=1
+      condition=0
+      If X>0 then
+        condition_x=1
+      ElseIf X<0 then 
+        condition_x=-1
+      EndIF
+      condition_y=0
+      type_odometriy=1
+      speed_right_1=-100
+      speed_right_2=100
+      speed_left_1=-100
+      speed_left_2=100
+      speed_y() 'вправо
+      i=i+1
+    EndWhile
+    i=0
+    While i<25
+      cof_OY=0
+      cof_OX=1
+      condition=0
+      If X>0 then
+        condition_x=1
+      ElseIf X<0 then 
+        condition_x=-1
+      EndIF
+      condition_y=0
+      type_odometriy=1
+      speed_right_1=-100
+      speed_right_2=-100
+      speed_left_1=100
+      speed_left_2=100
+      speed_y() 'вправо
+      i=i+1
+    EndWhile
+    poisk()
+  ElseIf Buttons.Current = "D" then
+    i=0
+    While i<10
+      cof_OY=0
+      cof_OX=1
+      condition=0
+      If X>0 then
+        condition_x=1
+      ElseIf X<0 then 
+        condition_x=-1
+      EndIF
+      condition_y=0
+      type_odometriy=1
+      speed_right_1=-100
+      speed_right_2=-100
+      speed_left_1=100
+      speed_left_2=100
+      speed_y() 'вправо
+      i=i+1
+    EndWhile
+    poisk()
+  EndIf
+  While Sensor.ReadRawValue(Port_down_color, 0) > color
+    If cof_OX = -1 then
+      cof_OY=0
+      cof_OX=-1
+      condition=0
+      If X>0 then
+        condition_x=1
+      ElseIf X<0 then 
+        condition_x=-1
+      EndIF
+      condition_y=0
+      type_odometriy=1
+      speed_right_value=Value_tern
+      speed_left_value=Value_tern
+      speed_back_value=-100
+      speed_x() 'вправо
+      delete()
+    ElseIf cof_OY = 1 then
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      speed_right_value=100
+      speed_left_value=-100
+      speed_back_value=0
+      speed_y_forward() 'назад
+      delete()
+    ElseIf cof_OX = 1 then
+      cof_OY=0
+      cof_OX=1
+      condition=0
+      If X>0 then
+        condition_x=1
+      ElseIf X<0 then 
+        condition_x=-1
+      EndIF
+      condition_y=0
+      type_odometriy=1
+      speed_right_value=-Value_tern
+      speed_left_value=-Value_tern
+      speed_back_value=100
+      speed_x() 'влево
+      delete()
+    ElseIf cof_OY = -1  then 
+      cof_OY=-1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      speed_right_value=-100
+      speed_left_value=100
+      speed_back_value=0
+      speed_y_back() 'вперед
+      delete()
+    EndIf
+    Program.Delay(5)
+  EndWhile
+EndWhile 
+
+
+
+'функция езды по оси OY(езда назад)
+sub speed_y
+  get_compas()
+  newangle=now_angle-Start_angle
+  newangle=newangle+180
+  If newangle>=0 Then 
+    newangle=newangle-360*Math.Floor(newangle/360)
+  ElseIf newangle<=0 then
+    newangle=-1-newangle
+    newangle=newangle-360*Math.Floor(newangle/360)
+    newangle=359-newangle
+  EndIf
+  newangle=newangle-180
+  speed=newangle*(-3)
+  speed_right_front=speed_right_1+speed
+  speed_right_back=speed_right_2+speed
+  speed_left_front=speed_left_1+speed
+  speed_left_back=speed_left_2+speed
+  Motor.StartPower("A",speed_right_front)
+  Motor.StartPower("B",speed_right_back)
+  Motor.StartPower("C",speed_left_front)
+  Motor.StartPower("D",speed_left_back)
+EndSub
+
+'функция выравнивания на ворота противника
+Sub speed_purpose 
+  get_compas()
+  newangle=now_angle-Start_angle
+  newangle=newangle+180
+  If newangle>=0 Then 
+    newangle=newangle-360*Math.Floor(newangle/360)
+  ElseIf newangle<=0 then
+    newangle=-1-newangle
+    newangle=newangle-360*Math.Floor(newangle/360)
+    newangle=359-newangle
+  EndIf
+  newangle=newangle-180
+  speed=newangle*(-2.3)
+  speed_right_front=speed_right_1+speed
+  speed_right_back=speed_right_2+speed
+  speed_left_front=speed_left_1+speed
+  speed_left_back=speed_left_2+speed
+  Motor.StartPower("A",speed_right_front)
+  Motor.StartPower("B",speed_right_back)
+  Motor.StartPower("C",speed_left_front)
+  Motor.StartPower("D",speed_left_back)
+EndSub
+
+Sub get_compas 'преобразование текущего показания compassa(апроксимация)
+  now_angle=Sensor.ReadRawValue(Port_compas,0)
+  now_angle=0.0003*now_angle*now_angle+1.9228*now_angle
+EndSub
+
+Sub poisk()
+  While Sensor.ReadRawValue(Port_down_color,0) < color
+    front_color=Sensor.ReadRawValue(Port_front_color,0) 'показание датчика NXT
+    zone=Sensor.ReadI2CRegister(Port_seeker,8,73) 'показание датчика seeker зона мяча
+    If (zone=1 or zone=2) then 
+      cof_OY=-1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      speed_right_1=-100
+      speed_right_2=-100
+      speed_left_1=100
+      speed_left_2=100
+      speed_y() 'назад
+    ElseIf (zone=3 or zone=4) then
+      cof_OY=0
+      cof_OX=-1
+      condition=0
+      If X>0 then
+        condition_x=1
+      ElseIf X<0 then 
+        condition_x=-1
+      EndIF
+      condition_y=0
+      type_odometriy=1
+      speed_right_1=100
+      speed_right_2=-100
+      speed_left_1=100
+      speed_left_2=-100
+      speed_y() 'влево
+    ElseIf zone=5 then
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      speed_right_1=100
+      speed_right_2=100
+      speed_left_1=-100
+      speed_left_2=-100
+      speed_y() 'вперед
+    ElseIf (zone=6 or zone=7) then
+      cof_OY=0
+      cof_OX=1
+      condition=0
+      If X>0 then
+        condition_x=1
+      ElseIf X<0 then 
+        condition_x=-1
+      EndIF
+      condition_y=0
+      type_odometriy=1
+      speed_right_1=-100
+      speed_right_2=100
+      speed_left_1=-100
+      speed_left_2=100
+      speed_y() 'вправо
+    ElseIf zone=8 or zone=9 then
+      cof_OY=-1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      speed_right_1=-100
+      speed_right_2=-100
+      speed_left_1=100
+      speed_left_2=100
+      speed_y() 'назад
+    ElseIf zone=0  then 
+      cof_OY=-1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      speed_right_1=-100
+      speed_right_2=-100
+      speed_left_1=100
+      speed_left_2=100
+      speed_y() 'назад
+    EndIf
+    Program.Delay(5)
+  EndWhile
+ EndSub
+
+Sub alignment 'функция выранивание на ворота противника
+  While Sensor.ReadRawValue(Port_front_color,0)<=2700
+    If X>-20 And X<20 Then
+      EV3.SetLEDColor("GREEN","NORMAL")
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_y() 'вперед
+      delete()
+    ElseIf X<-20 and X>-40 then
+      EV3.SetLEDColor("RED","NORMAL")
+      Start_angle=Left_near_angle
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_purpose()
+      Program.Delay(5)
+    ElseIf X<-40 and Y<80 then
+      EV3.SetLEDColor("RED","NORMAL")
+      Start_angle=Left_near_angle
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_purpose()
+      Program.Delay(5)
+    ElseIf X<-40 and Y>80 and Y<200 then
+      EV3.SetLEDColor("RED","NORMAL")
+      Start_angle=Left_far_angle
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_purpose()
+      Program.Delay(5)
+    ElseIf X<-40 and Y>200 and Y<240 then
+      EV3.SetLEDColor("RED","NORMAL")
+      Start_angle=Left_far_angle
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_purpose()
+      Program.Delay(5)
+    ElseIf X<-40 and Y>200 then
+      EV3.SetLEDColor("RED","NORMAL")
+      Start_angle=Left_super_far_angle
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_purpose()
+      Program.Delay(5)
+    ElseIf X<20 and Y<40 then
+      EV3.SetLEDColor("RED","NORMAL") 
+      Start_angle=Right_near_angle
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_purpose()
+      Program.Delay(5)
+    ElseIf X>20 and X<30 then 
+      EV3.SetLEDColor("RED","NORMAL")
+      Start_angle=Right_near_angle
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_purpose()
+      Program.Delay(5)
+    ElseIF X>20 and Y<70 then
+      EV3.SetLEDColor("RED","NORMAL")
+      Start_angle=Right_far_angle
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_purpose()
+      Program.Delay(5)
+    ElseIF X>20 and Y>70 and Y<200 then
+      EV3.SetLEDColor("RED","NORMAL")
+      Start_angle=Right_far_angle
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_purpose()
+      Program.Delay(5)
+    ElseIf X>20 and Y>200 then
+      EV3.SetLEDColor("RED","NORMAL")
+      Start_angle=Right_super_far_angle
+      cof_OY=1
+      cof_OX=0
+      condition=0
+      condition_x=0
+      condition_y=1
+      type_odometriy=1
+      A=-100
+      B=100
+      C=0
+      speed_purpose()
+      Program.Delay(5)
+    EndIf
+  EndWhile
+EndSub
