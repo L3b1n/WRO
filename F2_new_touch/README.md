@@ -4,4 +4,5 @@ This folder containe F2_new_touch robot build for the 2020 WRO football category
 
 ## Links
 * [Program to calidrate compass sensor](./KolibCompass.sb)
+* [3D model](./wro%202019%20taiwan.lxf)
 * [ev3 program](./wro2019.ev3)
