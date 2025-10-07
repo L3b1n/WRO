@@ -1,4 +1,4 @@
-# F1_Robocup
+# F2_new_touch
 
 This folder containe F2_new_touch robot build for the 2020 WRO football category
 
