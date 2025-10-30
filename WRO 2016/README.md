@@ -11,3 +11,4 @@ Here I locate 3D models and programs samples for WRO 2016.
 
 ## Programs
 * [new](./new.ev3)
+* [new2](./new2.ev3)
