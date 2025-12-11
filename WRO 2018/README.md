@@ -8,4 +8,5 @@ Here I locate 3D models and programs samples for WRO 2018.
 * [greece2018](./greese2018.lxf)
 * [newgame](./newgame.lxf)
 * [progect](./progect.lxf)
-* [russia2018](./russia2018.lxf)
+* [russia2018](./Russia2018.lxf)
+* [taiwan2018](./Taiwan2018.lxf)
