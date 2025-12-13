@@ -11,3 +11,4 @@ Here I locate 3D models and programs samples for WRO 2018.
 * [russia2018](./Russia2018.lxf)
 * [taiwan2018](./Taiwan2018.lxf)
 * [wro2018](./wro%202018.lxf)
+* [wro_2018_senior](./wro_2018_senior.lxf)
