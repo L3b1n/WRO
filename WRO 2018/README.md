@@ -14,4 +14,5 @@ Here I locate 3D models and programs samples for WRO 2018.
 * [wro_2018_senior](./wro_2018_senior.lxf)
 * [wro2018junior](./wro2018junior.lxf)
 * [wheel](./колесо.lxf)
+* [wheel2](./омни2.lxf)
 * [mechanism](./механизм.lxf)
