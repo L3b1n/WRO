@@ -1,0 +1,5 @@
+Sensor.SetMode(4,0)
+Filehandle=EV3File.OpenAppend(angle)
+Buttons.Wait("E")
+EV3File.WriteByte(Filehandle,Sensor.ReadRawValue(4))
+EV3File.Close(Filehandle)
