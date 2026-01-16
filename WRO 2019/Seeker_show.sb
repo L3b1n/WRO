@@ -1,0 +1,21 @@
+'While i<77
+  'LCD.Clear()
+  'LCD.Text(1,20,20,2,Sensor.ReadI2CRegister(1,8,74))
+  'Program.Delay(100)
+'EndWhile
+While "True"
+  While Sensor.ReadI2CRegister(1,8,75)>50 Or Sensor.ReadI2CRegister(1,8,76)>50 Or Sensor.ReadI2CRegister(1,8,77)>50
+    LCD.Clear()
+    LCD.Text(1,0,0,2,Sensor.ReadI2CRegister(1,8,75))
+    LCD.Text(1,0,20,2,Sensor.ReadI2CRegister(1,8,76))
+    LCD.Text(1,0,40,2,Sensor.ReadI2CRegister(1,8,77))
+    Program.Delay(100)
+  EndWhile
+  Speaker.Note(15,"C4",100)
+  LCD.Clear()
+  LCD.Text(1,0,0,2,Sensor.ReadI2CRegister(1,8,75))
+  LCD.Text(1,0,20,2,Sensor.ReadI2CRegister(1,8,76))
+  LCD.Text(1,0,40,2,Sensor.ReadI2CRegister(1,8,77))
+  Program.Delay(100)
+EndWhile
+  
