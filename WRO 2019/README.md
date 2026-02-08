@@ -11,3 +11,4 @@ Here I locate 3D models and programs samples for WRO 2019.
 * [#wro_2019_junior](./#wro_2019_junior.lxf)
 * [#wro2019](./#wro2019.lxf)
 * [golonomic](./golomonik.lxf)
+* [otbivaka](./otbivaka.lxf)
