@@ -22,3 +22,4 @@ Here I locate 3D models and programs samples for WRO 2019.
 * [wro_2019_tennis](./wro_2019_tennis.lxf)
 * [wro2019_elementary](./wro2019_elementary.lxf)
 * [wro2019](./wro2019.lxf)
+* [new wheel](./новое%20колесо.lxf)
