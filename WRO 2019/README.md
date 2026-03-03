@@ -34,6 +34,7 @@ Here I locate 3D models and programs samples for WRO 2019.
 * [roboticon2018](./roboticon2018.ev3)
 * [kod](./kod.sb)
 * [KolibColor](./KolibColor.sb)
+* [KolibCompass](./KolibCompass.sb)
 
 ## EV3 Bloks
 * [OmniDrive0201](./OmniDrive0201.ev3b)
