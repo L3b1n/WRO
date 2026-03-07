@@ -43,3 +43,4 @@ Here I locate 3D models and programs samples for WRO 2019.
 
 ## DLL
 * [EV3Communication](./EV3Communication.dll)
+* [SmallBasicEV3Extension](./SmallBasicEV3Extension.dll)
