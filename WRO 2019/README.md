@@ -48,3 +48,4 @@ Here I locate 3D models and programs samples for WRO 2019.
 
 ## EXE
 * [Seeker_show](./Seeker_show.exe)
+* [Seeker_show.pdb](./Seeker_show.pdb)
