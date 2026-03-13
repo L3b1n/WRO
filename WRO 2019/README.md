@@ -24,7 +24,7 @@ Here I locate 3D models ideas and programs samples for WRO 2019 and some other c
 * [wro2019](./wro2019.lxf)
 * [new wheel](./новое%20колесо.lxf)
 
-## Programs
+## Programs ev3
 * [#footbal1](./#footbal1.ev3)
 * [footbal](./footbal.ev3)
 * [footbal1](./footbal1.ev3)
@@ -32,6 +32,8 @@ Here I locate 3D models ideas and programs samples for WRO 2019 and some other c
 * [football](./football.ev3)
 * [football1](./football1.ev3)
 * [roboticon2018](./roboticon2018.ev3)
+
+## Programs small basic
 * [kod](./kod.sb)
 * [KolibColor](./KolibColor.sb)
 * [KolibCompass](./KolibCompass.sb)
