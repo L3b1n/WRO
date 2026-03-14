@@ -51,3 +51,6 @@ Here I locate 3D models ideas and programs samples for WRO 2019 and some other c
 ## EXE
 * [Seeker_show](./Seeker_show.exe)
 * [Seeker_show.pdb](./Seeker_show.pdb)
+
+# Xlsx
+* [junior_approximation](./junior_approximation.xlsx)
