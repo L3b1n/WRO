@@ -43,7 +43,7 @@ Here I locate 3D models ideas and programs samples for WRO 2019 and some other c
 ## EV3 Bloks
 * [OmniDrive0201](./OmniDrive0201.ev3b)
 
-## DLL
+## DLL extensions
 * [EV3Communication](./EV3Communication.dll)
 * [SmallBasicLibrary](./SmallBasicLibrary.dll)
 * [SmallBasicEV3Extension](./SmallBasicEV3Extension.dll)
