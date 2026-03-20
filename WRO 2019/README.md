@@ -48,7 +48,7 @@ Here I locate 3D models ideas and programs samples for WRO 2019 and some other c
 * [SmallBasicLibrary](./SmallBasicLibrary.dll)
 * [SmallBasicEV3Extension](./SmallBasicEV3Extension.dll)
 
-## EXE
+## EXE binaries
 * [Seeker_show](./Seeker_show.exe)
 * [Seeker_show.pdb](./Seeker_show.pdb)
 
