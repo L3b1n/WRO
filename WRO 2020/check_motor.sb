@@ -1,0 +1,38 @@
+LCD.Clear()
+While "True"
+  Buttons.Flush()
+  LCD.Text(1,0,0,2,"A-right")
+  LCD.Text(1,0,20,2,"B-left")
+  LCD.Text(1,0,40,2,"C-down")
+  Buttons.Wait()
+  Motor.ResetCount("ABC")
+  If Buttons.Current="D" Then 
+    I=0
+    While I<100
+      Motor.StartPower("C",100)
+      Program.Delay(5)
+      I=I+1
+    EndWhile
+    count=Motor.GetCount("C")
+  ElseIf Buttons.Current="R" Then 
+    I=0
+    While I<100
+      Motor.StartPower("A",100)
+      Program.Delay(5)
+      I=I+1
+    EndWhile
+    count=Motor.GetCount("A")  
+  ElseIf Buttons.Current="L" Then
+    I=0
+    While I<100
+      Motor.StartPower("B",100)
+      Program.Delay(5)
+      I=I+1
+    EndWhile
+    count=Motor.GetCount("B")
+  EndIf
+  Buttons.Flush()
+  Motor.Stop("ABC","True")
+  LCD.Text(1,0,60,2,count)
+  Buttons.Wait()
+EndWhile
