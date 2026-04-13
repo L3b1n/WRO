@@ -1,0 +1,158 @@
+'imit porometr
+speed_right_value=0
+speed_left_value=0
+speed_back_value=0
+
+X=0
+Y=0
+Px_cm=1'0.585
+Py_cm=0.826
+now_angle=0 ' текущее показание датчика compass
+cof_OY=0 'поправка для определения направления движения(по оси OY)
+cof_OX=0 'поправка для определения направления движения(по оси OX)
+button_press=1
+newangle=0 'угол отклонения от изначального курса
+one=0 'количество повторов появления мяча в одной зоне 1
+two=0 'количество повторов появления мяча в одной зоне 2
+three=0 'количество повторов появления мяча в одной зоне 3
+seven=0 'количество повторов появления мяча в одной зоне 7
+eight=0 'количество повторов появления мяча в одной зоне 8
+nine=0 'количество повторов появления мяча в одной зоне 9
+zero=0 'количество повторов появления мяча в одной зоне 0
+sample=0 'количество повторов появления мяча в одной зоне
+type_odometriy=1 'режим работы одометрии 
+condition_x=0 'поправка для езды по оси X в одометрии 
+condition_y=0 'поправка для езды по оси Y в одометрии 
+Port_compas=4
+Port_seeker=1
+Port_front_color=3
+Port_down_color=2
+'imit controler
+LCD.Clear()
+Sensor.SetMode(Port_front_color,0)
+Sensor.SetMode(Port_seeker,1)
+Sensor.SetMode(Port_compas,0)
+Sensor.SetMode(Port_down_color,0)
+Start_angle=Sensor.ReadRawValue(Port_compas,0) 'идеальное показание compassa
+Start_angle=0.0003*Start_angle*Start_angle+1.9228*Start_angle 'апроксимация идеального показания compassa
+Gold_angle=Start_angle
+F=EV3File.OpenRead("wro2019/far.txt")
+far=EV3File.ReadByte(F)
+EV3File.Close(F)
+N=EV3File.OpenRead("wro2019/near.txt")
+near=EV3File.ReadByte(N)
+EV3File.Close(N)
+D=EV3File.OpenRead("wro2019/down.txt")
+down=EV3File.ReadByte(D)
+EV3File.Close(D)
+R_A=EV3File.OpenRead("wro2019/Right_angle.txt")
+Right_angle=EV3File.ReadByte(R_A)*10
+EV3File.Close(R_A)
+L_A=EV3File.OpenRead("wro2019/Left_angle.txt")
+Left_angle=EV3File.ReadByte(L_A)*10
+EV3File.Close(L_A)
+
+'одометрия
+Thread.Run=odometriy 
+Sub odometriy
+  While "True"
+    'прямолинейное
+    If type_odometriy=1 Then 
+      debug_angel=Math.GetRadians(90)
+      count_right=Math.Abs(Motor.GetSpeed("A")) 
+      count_left=Math.Abs(Motor.GetSpeed("B"))
+      count_back=Math.Abs(Motor.GetSpeed("C"))
+      
+      Vy=(Math.SquareRoot(Math.Power(count_right,2)+Math.Power(count_left,2)+count_right*count_left))*cof_OY
+      Y=Vy*0.005*Py_cm+Y-0.06*condition_y
+      
+      Vx=((Math.SquareRoot(Math.Power(count_right,2)+Math.Power(count_left,2)-count_right*count_left)+count_back)/2)*cof_OX
+      X=Vx*0.005*Px_cm+X+0.06*condition_x
+    'криволинейное
+    ElseIf type_odometriy=0 Then 
+      Va=Math.Abs(Motor.GetSpeed("A"))
+      Vb=Math.Abs(Motor.GetSpeed("B"))
+      R=(Va+Vb)*15/2*(Va-Vb)
+      alpha=Math.SquareRoot(Va*Va+Vb*Vb+Va*Vb)*0.005/R
+      'угол отклонения больше нуля
+      If alpha>0 Then 
+        X=2*R*Math.Sin(alpha/2)*Math.Cos(debug_angel+alpha/2)+X
+        Y=2*R*Math.Sin(alpha/2)*Math.Sin(debug_angel+alpha/2)+Y
+        debug_angel=debug_angel+alpha/2
+      'угол отклонения меньше нуля
+      ElseIf alpha<0 Then 
+        X=2*R*Math.Sin(alpha/2)*Math.Cos(alpha/2-debug_angel)+X
+        Y=2*R*Math.Sin(alpha/2)*Math.Sin(alpha/2-debug_angel)+Y
+        debug_angel=debug_angel-alpha/2
+      EndIf
+    EndIf
+    
+    'проверка залипания
+    abs_A=Math.Abs(Motor.GetSpeed("A"))
+    abs_B=Math.Abs(Motor.GetSpeed("B"))
+    While abs_A<20  
+      While abs_B<20
+        abs_A=Math.Abs(Motor.GetSpeed("A"))
+        abs_B=Math.Abs(Motor.GetSpeed("B"))    
+      EndWhile
+      abs_A=Math.Abs(Motor.GetSpeed("A"))
+      abs_B=Math.Abs(Motor.GetSpeed("B"))
+    EndWhile
+    Program.Delay(5)  
+  EndWhile
+EndSub
+
+
+'функция езды по оси OY
+sub speed_y 
+  get_compas()
+  newangle=now_angle-Start_angle
+  newangle=newangle+180
+  If newangle>=0 Then 
+    newangle=newangle-360*Math.Floor(newangle/360)
+  ElseIf newangle<=0 then
+    newangle=-1-newangle
+    newangle=newangle-360*Math.Floor(newangle/360)
+    newangle=359-newangle
+  EndIf
+  newangle=newangle-180
+  speed=newangle*(-1.4)
+  speed_right=speed_right_value+speed
+  speed_left=speed_left_value+speed
+  speed_back=speed_back_value+speed
+  Motor.Start("A",speed_right)
+  Motor.Start("B",speed_left)
+  Motor.Start("C",speed_back)
+EndSub
+
+I=0
+While I<130
+  cof_OY=1
+  cof_OX=0
+  condition=1
+  condition_x=0
+  condition_y=1
+  type=1
+  speed_right_value=-100
+  speed_left_value=100
+  speed_back_value=0
+  speed_y()
+  Program.Delay(5)
+  I=I+1
+EndWhile
+Motor.Stop("A","True")
+Motor.Stop("B","True")  
+Motor.Stop("C","True")
+
+
+LCD.Clear()
+LCD.Text(1,0,20,2,"x=")
+LCD.Text(1,0,40,2,"y=")
+LCD.Text(1,60,20,2,X)
+LCD.Text(1,60,40,2,Y)
+Program.Delay(10000)
+  
+Sub get_compas 'преобразование текущего показания compassa(апроксимация)
+  now_angle=Sensor.ReadRawValue(Port_compas,0)
+  now_angle=0.0003*now_angle*now_angle+1.9228*now_angle
+EndSub
