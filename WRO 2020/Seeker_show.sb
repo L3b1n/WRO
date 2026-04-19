@@ -1,0 +1,8 @@
+While "True"
+  LCD.Clear()
+  LCD.Text(1,0,0,2,Sensor.ReadPercent(2))'Sensor.ReadI2CRegister(1,8,75))
+  LCD.Text(1,0,20,2,Sensor.ReadI2CRegister(1,8,76))
+  LCD.Text(1,0,40,2,Sensor.ReadI2CRegister(1,8,77))
+  Program.Delay(500)
+EndWhile
+  
