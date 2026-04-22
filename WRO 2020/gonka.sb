@@ -1,0 +1,9 @@
+While "True"
+  Sensor_right=Sensor.ReadRawValue(2,0)
+  Sensor_left=Sensor.ReadRawValue(3,0)
+  Power=(-Sensor_right+Sensor_left)*(-Sensor_right+Sensor_left)*(-Sensor_right+Sensor_left)*0.02+(-Sensor_right+Sensor_left)*1.3
+  Power_right=Power-80
+  Power_left=80+Power
+  Motor.StartPower("B",Power_right)
+  Motor.StartPower("C",Power_left)
+EndWhile
