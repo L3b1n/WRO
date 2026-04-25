@@ -1,0 +1,50 @@
+condition=1
+Mailbox.Connect("F2")
+F1=Mailbox.Create("F1")
+'комуникация по блютузу
+Thread.Run=comunicate_send
+Sub comunicate_send
+  While "True"
+    If condition=0 Then 
+      Mailbox.Send("F2","F2","stop")
+    ElseIf condition=1 then
+      EV3.SetLEDColor("red","normal")
+      Mailbox.Send("F2","F2","start")
+    EndIf
+  EndWhile
+EndSub
+
+
+'комуникация по блютузу
+Thread.Run=comunicate_get
+Sub comunicate_get
+  While "True"
+    If Mailbox.IsAvailable(F1)="True" Then
+      access=Mailbox.Receive(F1)
+    Else
+    EndIf  
+  EndWhile
+EndSub
+
+
+'вывод показаний на экран
+Thread.Run=show 
+Sub show
+  While "True"
+    LCD.Clear()
+    LCD.Text(1,0,0,2,EV3.BatteryVoltage)
+    LCD.Text(1,0,20,2,"x=")
+    LCD.Text(1,0,40,2,"y=")
+    'LCD.Text(1,60,20,2,X)
+    'LCD.Text(1,60,40,2,y)
+    'LCD.Text(1,0,60,2,Sensor.ReadI2CRegister(1,8,75))
+    'LCD.Text(1,0,80,2,Sensor.ReadI2CRegister(1,8,76))
+    'LCD.Text(1,0,100,2,Sensor.ReadI2CRegister(1,8,77))
+    'LCD.Text(1,70,100,2,zone_previous_2)
+    'LCD.Text(1,100,100,2,zone_previous_3)
+    Program.Delay(100)
+  EndWhile
+EndSub 
+
+While "true"
+EndWhile
