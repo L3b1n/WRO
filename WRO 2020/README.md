@@ -4,4 +4,5 @@ Here I locate 3D models ideas and programs samples for WRO 2020 and some other c
 
 ## Models
 * [wro_2020_big_ev3](./wro_2020_big_ev3.lxf)
-* [wro_2020_big](./wro2020_big.lxf)
+* [wro_2020_test](./wro_2020_test.lxf)
+* [wro2020_big](./wro2020_big.lxf)
