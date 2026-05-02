@@ -6,4 +6,5 @@ Here I locate 3D models ideas and programs samples for WRO 2020 and some other c
 * [wro_2020_big_ev3](./wro_2020_big_ev3.lxf)
 * [wro_2020_test](./wro_2020_test.lxf)
 * [wro2020_big](./wro2020_big.lxf)
+* [wro2020test](./wro2020test.lxf)
 * [wro2020](./wro2020.lxf)
