@@ -11,3 +11,4 @@ Here I locate 3D models ideas and programs samples for WRO 2020 and some other c
 
 ## Programs small basic
 * [check_motor](./check_motor.sb)
+* [F1_big_touch](./F1_big_touch.sb)
